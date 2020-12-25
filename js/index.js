@@ -9,7 +9,7 @@ const lightboxOverlayRef = document.querySelector('.lightbox__overlay');
 const lightboxImageRef = document.querySelector('.lightbox__image');
 let itemRef = '';
 
-galleryItems.map(
+galleryItems.forEach(
   item =>
     (itemRef += `<li class='gallery__item'><img class='gallery__image' src='${item.original}' alt='${item.description}'></img></li>`),
 );
