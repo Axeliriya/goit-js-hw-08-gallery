@@ -57,7 +57,6 @@ const openImageInBackdrop = () => {
   });
   buttonLeftRef.addEventListener('click', () => {
     if (currentIndex > 0 && currentIndex <= galleryImage.length) {
-      buttonLeftRef.disabled = false;
       currentIndex -= 1;
       const nextImg = document.querySelector(
         `img[data-index='${currentIndex}']`,
