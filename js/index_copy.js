@@ -33,19 +33,38 @@ galleryItems.forEach(
 const createBtn = () => {
   const btnLeft = document.createElement('button');
   const btnRight = document.createElement('button');
+  const boxInput = document.createElement('div');
+
   btnLeft.type = 'button';
   btnRight.type = 'button';
+
   btnLeft.classList.add('lightbox__btn--left', 'lightbox__btn');
   btnRight.classList.add('lightbox__btn--right', 'lightbox__btn');
+  boxInput.classList.add('box__input');
 
-  refs.lightboxContent.append(btnLeft, btnRight);
+  refs.lightboxContent.append(btnLeft, btnRight, boxInput);
 };
 
 refs.gallery.insertAdjacentHTML('beforeend', counterImg);
 createBtn();
 
+let lableRadio = '';
+for (let i = 0; i < 3; i += 1) {
+  lableRadio += `<label class="box-input__lable" id="img">
+      <input class="box-input__input" type="radio" name="img" data-idx="${i}" />
+    </label>`;
+}
+
 const btnLeftEl = document.querySelector('.lightbox__btn--left');
 const btnRightEl = document.querySelector('.lightbox__btn--right');
+const box = document.querySelector('.box__input');
+
+box.insertAdjacentHTML('beforeend', lableRadio);
+
+const chekRadioPrev = document.querySelector('[data-idx="0"]');
+const chekRadioCurrent = document.querySelector('[data-idx="1"]');
+const chekRadioNext = document.querySelector('[data-idx="2"]');
+chekRadioCurrent.checked = true;
 
 const openModalHandler = event => {
   event.preventDefault();
@@ -61,6 +80,8 @@ const openModalHandler = event => {
   refs.lightboxOverlay.addEventListener('click', closeOverlayHandler);
   btnRightEl.addEventListener('click', clickBtnHandler);
   btnLeftEl.addEventListener('click', clickBtnHandler);
+  chekRadioPrev.addEventListener('input', checkInput);
+  chekRadioNext.addEventListener('input', checkInput);
   window.addEventListener('keydown', closeEscHandler);
   window.addEventListener('keydown', downArrowHandler);
 };
@@ -119,5 +140,17 @@ const clickBtnHandler = event => {
   }
   if (event.target.classList.contains('lightbox__btn--right')) {
     nextImg(currentIdx + 1);
+  }
+};
+
+const checkInput = event => {
+  const currentIdx = +refs.lightboxImage.dataset.index;
+  if (chekRadioPrev.checked) {
+    nextImg(currentIdx - 1);
+    setTimeout(() => (chekRadioCurrent.checked = true), 150);
+  }
+  if (chekRadioNext.checked) {
+    nextImg(currentIdx + 1);
+    setTimeout(() => (chekRadioCurrent.checked = true), 150);
   }
 };
