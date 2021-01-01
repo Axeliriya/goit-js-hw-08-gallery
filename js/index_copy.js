@@ -49,22 +49,18 @@ refs.gallery.insertAdjacentHTML('beforeend', counterImg);
 createBtn();
 
 let lableRadio = '';
-for (let i = 0; i < 3; i += 1) {
-  lableRadio += `<label class="box-input__lable" id="img">
-      <input class="box-input__input" type="radio" name="img" data-idx="${i}" />
-    </label>`;
-}
+galleryItems.forEach(
+  (item, i) =>
+    (lableRadio += `<label class="box-input__lable" id="img">
+    <input class="box-input__input" type="radio" name="img" data-idx="${i}" />
+  </label>`),
+);
 
 const btnLeftEl = document.querySelector('.lightbox__btn--left');
 const btnRightEl = document.querySelector('.lightbox__btn--right');
 const box = document.querySelector('.box__input');
 
 box.insertAdjacentHTML('beforeend', lableRadio);
-
-const chekRadioPrev = document.querySelector('[data-idx="0"]');
-const chekRadioCurrent = document.querySelector('[data-idx="1"]');
-const chekRadioNext = document.querySelector('[data-idx="2"]');
-chekRadioCurrent.checked = true;
 
 const openModalHandler = event => {
   event.preventDefault();
@@ -75,13 +71,13 @@ const openModalHandler = event => {
   const currentImg = event.target;
   refs.lightbox.classList.add('is-open');
   changeAtribute(currentImg);
+  currentRadioBatton();
 
   refs.btnCloseLightbox.addEventListener('click', closeModalHandler);
   refs.lightboxOverlay.addEventListener('click', closeOverlayHandler);
   btnRightEl.addEventListener('click', clickBtnHandler);
   btnLeftEl.addEventListener('click', clickBtnHandler);
-  chekRadioPrev.addEventListener('input', checkInput);
-  chekRadioNext.addEventListener('input', checkInput);
+  box.addEventListener('input', checkInput);
   window.addEventListener('keydown', closeEscHandler);
   window.addEventListener('keydown', downArrowHandler);
 };
@@ -92,6 +88,12 @@ const changeAtribute = item => {
   refs.lightboxImage.src = item.dataset.source;
   refs.lightboxImage.alt = item.alt;
   refs.lightboxImage.dataset.index = item.dataset.index;
+};
+
+const currentRadioBatton = () => {
+  const currentIdx = +refs.lightboxImage.dataset.index;
+  const dataCheck = document.querySelector(`[data-idx='${currentIdx}']`);
+  dataCheck.checked = true;
 };
 
 const closeModalHandler = () => {
@@ -144,13 +146,11 @@ const clickBtnHandler = event => {
 };
 
 const checkInput = event => {
-  const currentIdx = +refs.lightboxImage.dataset.index;
-  if (chekRadioPrev.checked) {
-    nextImg(currentIdx - 1);
-    setTimeout(() => (chekRadioCurrent.checked = true), 150);
+  if (event.target.nodeName !== 'INPUT') {
+    return;
   }
-  if (chekRadioNext.checked) {
-    nextImg(currentIdx + 1);
-    setTimeout(() => (chekRadioCurrent.checked = true), 150);
-  }
+  const nextCheck = document.querySelector('input[name="img"]:checked');
+  const nextIdx = +nextCheck.dataset.idx;
+
+  nextImg(nextIdx);
 };
