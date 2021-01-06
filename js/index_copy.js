@@ -9,6 +9,7 @@ const refs = {
   lightboxOverlay: document.querySelector('.lightbox__overlay'),
   lightboxImage: document.querySelector('.lightbox__image'),
   lightboxContent: document.querySelector('.lightbox__content'),
+  progress: document.querySelector('.progress'),
 };
 
 let counterImg = '';
@@ -21,7 +22,7 @@ galleryItems.forEach(
     >
       <img
         class="gallery__image"
-        src="${item.preview}"
+        data-lazy="${item.preview}"
         data-source="${item.original}"
         data-index="${i}"
         alt="${item.description}"
@@ -80,9 +81,21 @@ const openModalHandler = event => {
   box.addEventListener('input', checkInput);
   window.addEventListener('keydown', closeEscHandler);
   window.addEventListener('keydown', downArrowHandler);
+  document.body.style.overflow = 'hidden';
 };
 
 refs.gallery.addEventListener('click', openModalHandler);
+
+const progressBar = () => {
+  let scroll = document.body.scrollTop || document.documentElement.scrollTop;
+  let height =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
+  let per = (scroll / height) * 100;
+
+  refs.progress.style.width = `${per}%`;
+};
+window.addEventListener('scroll', progressBar);
 
 const changeAtribute = item => {
   refs.lightboxImage.src = item.dataset.source;
@@ -99,6 +112,7 @@ const currentRadioBatton = () => {
 const closeModalHandler = () => {
   refs.lightbox.classList.remove('is-open');
   refs.lightboxImage.src = '';
+  document.body.style.overflow = 'auto';
 };
 
 const closeOverlayHandler = event => {
@@ -123,6 +137,7 @@ const nextImg = i => {
 
   const nextImg = document.querySelector(`img[data-index='${i}']`);
   changeAtribute(nextImg);
+  currentRadioBatton();
 };
 
 const downArrowHandler = event => {
@@ -154,3 +169,23 @@ const checkInput = event => {
 
   nextImg(nextIdx);
 };
+
+const galleryImage = document.querySelectorAll('.gallery__image');
+console.log(galleryImage);
+
+const io = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const image = entry.target;
+      const src = image.dataset.lazy;
+
+      image.src = src;
+      console.log(entry.target);
+    }
+  });
+});
+
+galleryImage.forEach(image => io.observe(image));
+
+const galleryLink = document.querySelectorAll('.gallery__link');
+console.log(galleryImage);

@@ -31,6 +31,16 @@ img {
   height: auto;
 }
 
+.progress {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 6px;
+  background-color: rgb(58, 86, 245);
+  z-index: 1;
+}
+
 .gallery {
   display: grid;
   width: 1200px;

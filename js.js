@@ -1,100 +1,102 @@
-// class User {
-//   email;
+const Users = [
+  {
+    name: 'Moore Hensley',
+    email: 'moorehensley@indexia.com',
+    eyeColor: 'blue',
+    friends: ['Sharron Pace'],
+    isActive: false,
+    balance: 2811,
+    gender: 'male',
+    age: 37,
+  },
+  {
+    name: 'Sharlene Bush',
+    email: 'sharlenebush@tubesys.com',
+    eyeColor: 'blue',
+    friends: ['Briana Decker', 'Sharron Pace'],
+    isActive: true,
+    balance: 3821,
+    gender: 'female',
+    age: 34,
+  },
+  {
+    name: 'Ross Vazquez',
+    email: 'rossvazquez@xinware.com',
+    eyeColor: 'green',
+    friends: ['Marilyn Mcintosh', 'Padilla Garrison', 'Naomi Buckner'],
+    isActive: false,
+    balance: 3793,
+    gender: 'male',
+    age: 24,
+  },
+  {
+    name: 'Elma Head',
+    email: 'elmahead@omatom.com',
+    eyeColor: 'green',
+    friends: ['Goldie Gentry', 'Aisha Tran'],
+    isActive: true,
+    balance: 2278,
+    gender: 'female',
+    age: 21,
+  },
+  {
+    name: 'Carey Barr',
+    email: 'careybarr@nurali.com',
+    eyeColor: 'blue',
+    friends: ['Jordan Sampson', 'Eddie Strong'],
+    isActive: true,
+    balance: 3951,
+    gender: 'male',
+    age: 27,
+  },
+  {
+    name: 'Blackburn Dotson',
+    email: 'blackburndotson@furnigeer.com',
+    eyeColor: 'brown',
+    friends: ['Jacklyn Lucas', 'Linda Chapman'],
+    isActive: false,
+    balance: 1498,
+    gender: 'male',
+    age: 38,
+  },
+  {
+    name: 'Sheree Anthony',
+    email: 'shereeanthony@kog.com',
+    eyeColor: 'brown',
+    friends: ['Goldie Gentry', 'Briana Decker'],
+    isActive: true,
+    balance: 2764,
+    gender: 'female',
+    age: 39,
+  },
+];
 
-//   constructor(email) {
-//     this.email = email;
-//   }
+// const getFriends = users =>
+//   users
+//     .reduce((acc, { friends }) => {
+//       acc.push(...friends);
+//       return acc;
+//     }, [])
+//     .filter((item, i, arr) => arr.indexOf(item) === i);
 
-//   get email() {
-//     return this.email;
-//   }
+// const getFriends = users =>
+//   users
+//     .flatMap(({ friends }) => friends)
+//     .filter((item, i, arr) => arr.indexOf(item) === i);
 
-//   set email(newEmail) {
-//     this.email = newEmail;
-//   }
-// }
-// class Admin extends User {
-//   // Пиши код ниже этой строки
-//   blacklistedEmails = '';
-//   static AccessLevel = {
-//     BASIC: 'basic',
-//     SUPERUSER: 'superuser',
-//   };
-//   accessLevel;
-//   constructor({ email, accessLevel }) {
-//     super(email);
-//     this.accessLevel = accessLevel;
-//   }
-//   blacklist(email) {
-//     this.blacklistedEmails += email;
-//   }
-//   isBlacklisted(email) {
-//     if (this.blacklistedEmails.indexOf(email) !== -1) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-//   // Пиши код выше этой строки
-// }
+// const getFriends = users =>
+//   users
+//     .flatMap(user => user.friends)
+//     .filter((element, index, arr) => arr.indexOf(element) === index);
 
-// const mango2 = new Admin({
-//   email: 'mango@mail.com',
-//   accessLevel: Admin.AccessLevel.SUPERUSER,
-// });
+// const getInactiveUsers = users => users.filter(user => !user.isActive);
 
-// console.log(mango2.email); // mango@mail.com
-// console.log(mango2.accessLevel); // superuser
-// mango2.blacklist('poly@mail.com');
-// console.log(mango2.blacklistedEmails); // 'poly@mail.com'
-// console.log(mango2.isBlacklisted('mango@mail.com')); //  false
-// console.log(mango2.isBlacklisted('poly@mail.com')); // true
+// const getInactiveUsers = users => users.every(({ isActive }) => isActive);
 
-class User {
-  email;
+const getInactiveUsers = (array, mail) =>
+  array.find(({ email }) => email.includes(mail));
 
-  constructor(email) {
-    this.email = email;
-  }
+// const getInactiveUsers = (array, mail) =>
+//   array.find(({ email }) => email === mail);
 
-  get email() {
-    return this.email;
-  }
-
-  set email(newEmail) {
-    this.email = newEmail;
-  }
-}
-class Admin extends User {
-  // Пиши код ниже этой строки
-  blacklistedEmails = [];
-  static AccessLevel = {
-    BASIC: 'basic',
-    SUPERUSER: 'superuser',
-  };
-  accessLevel;
-  constructor({ email, accessLevel }) {
-    super(email);
-    this.accessLevel = accessLevel;
-  }
-  blacklist(email) {
-    this.blacklistedEmails.push(email);
-  }
-  isBlacklisted(email) {
-    const result = this.blacklistedEmails.includes(email);
-    return result;
-  }
-  // Пиши код выше этой строки
-}
-
-const mango2 = new Admin({
-  email: 'mango@mail.com',
-  accessLevel: Admin.AccessLevel.SUPERUSER,
-});
-
-console.log(mango2.email); // mango@mail.com
-console.log(mango2.accessLevel); // superuser
-mango2.blacklist('poly@mail.com');
-console.log(mango2.blacklistedEmails); // 'poly@mail.com'
-console.log(mango2.isBlacklisted('mango@mail.com')); //  false
-console.log(mango2.isBlacklisted('poly@mail.com')); // true
+console.log(getInactiveUsers(Users, 'blackburndot@furnigeer.com'));
