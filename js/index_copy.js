@@ -171,7 +171,6 @@ const checkInput = event => {
 };
 
 const galleryImage = document.querySelectorAll('.gallery__image');
-console.log(galleryImage);
 
 const io = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
@@ -180,12 +179,8 @@ const io = new IntersectionObserver((entries, observer) => {
       const src = image.dataset.lazy;
 
       image.src = src;
-      console.log(entry.target);
     }
   });
 });
 
 galleryImage.forEach(image => io.observe(image));
-
-const galleryLink = document.querySelectorAll('.gallery__link');
-console.log(galleryImage);
